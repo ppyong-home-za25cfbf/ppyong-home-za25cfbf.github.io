@@ -1,1 +1,0 @@
-export{t as detectGraphics}from"./gpu-CVmuRrzY.js";
