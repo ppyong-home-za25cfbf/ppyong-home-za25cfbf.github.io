@@ -1,0 +1,1 @@
+import{l as e,n as t}from"./Toast-BUykkt_a.js";import{C as n,T as r}from"./components-BWkAtdtI.js";var i=t();function a(){let t=e();return(0,i.jsx)(n,{title:`길을 잃었어요`,footer:(0,i.jsx)(r,{variant:`primary`,onClick:()=>t(`/`,{replace:!0}),children:`처음으로 가기`}),children:(0,i.jsx)(`p`,{className:`lead`,children:`없는 화면이에요.`})})}export{a as Component};
