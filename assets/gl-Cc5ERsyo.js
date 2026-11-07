@@ -1,0 +1,1 @@
+var e=Promise.resolve();function t(){let t,n=new Promise(e=>{t=e}),r=e.then(()=>{let e=!1;return()=>{e||(e=!0,t())}});return e=e.then(()=>n),r}async function n(e,n=()=>!1){let r=await t();try{return n()?null:await e()}finally{r()}}export{n,t};

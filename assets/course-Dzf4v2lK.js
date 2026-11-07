@@ -1,0 +1,1 @@
+var e=e=>e.course??{mode:`sequence`,taste:!0};function t(e,t){return(e.find(e=>e.kind!==`final`&&e.skills.some(e=>!t[e]?.mastered))??e[0])?.id??null}export{t as n,e as t};

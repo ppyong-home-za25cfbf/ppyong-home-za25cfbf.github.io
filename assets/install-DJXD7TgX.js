@@ -1,0 +1,1 @@
+var e=null,t=new Set;function n(){addEventListener(`beforeinstallprompt`,n=>{n.preventDefault(),e=n;for(let e of t)e()})}function r(){return e!==null}async function i(){let n=e;e=null,await n?.prompt();for(let e of t)e()}export{i as n,n as r,r as t};
