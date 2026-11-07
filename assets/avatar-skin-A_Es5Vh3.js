@@ -1,0 +1,1 @@
+import{i as e,r as t,t as n}from"./render-CC2U5-s0.js";function r(r){let i=e.map(e=>{let t=r[e.id];return t?{...e,name:t[0],draw:t[1]}:e});return{catalog:{...t,parts:i.map(({id:e,slot:t,name:n,unlock:r,colorSlots:i})=>({id:e,slot:t,name:n,unlock:r,colorSlots:i}))},render:n(new Map(i.map(e=>[e.id,e])))}}export{r as t};
