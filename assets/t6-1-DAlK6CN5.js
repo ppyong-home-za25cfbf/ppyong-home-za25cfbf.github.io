@@ -1,1 +1,0 @@
-import{n as e}from"./run-7y0iD4ea.js";import{f as t,l as n,m as r,n as i,s as a,u as o}from"./g6s1-fSlO42DL.js";var s=e({"g6.fracdiv1":a,"g6.prism":o,"g6.decdiv1":i,"g6.ratio":t,"g6.graphs":n,"g6.volume":r});export{s as GENS};
