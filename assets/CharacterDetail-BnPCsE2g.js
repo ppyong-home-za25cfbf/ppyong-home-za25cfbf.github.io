@@ -1,1 +1,0 @@
-export{t as Component,n as XpMeter}from"./CharacterDetail-BV9dJk3V.js";
