@@ -2,29 +2,83 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // 자산 복구 (쑥쑥쏙쏙 비교 05 §3, jmj 2026-11-11): right after a deploy an old page can ask for files that are gone
+      // and stay blank. While the screen is still blank and online: 1st try updates the service worker, 2nd removes it and
+      // its file cache; each then reloads. At most 2 tries a tab; 5 s of a drawn screen clears the count; past 2, a message.
+      (function () {
+        var KEY = 'ppyong:asset-recover', MAX = 2, busy = false;
+        var count = function () { try { return Number(sessionStorage.getItem(KEY) || 0); } catch (e) { return MAX; } };
+        var blank = function () { var r = document.getElementById('root'); return !r || !r.firstElementChild; };
+        var reload = function () { location.reload(); };
+        function stuck() {
+          var r = document.getElementById('root');
+          if (!r || r.firstElementChild) return;
+          r.innerHTML = '<div style="padding:32px 20px;text-align:center;font:18px/1.5 system-ui,sans-serif"><p>화면을 불러오지 못했어요.<br>인터넷 연결을 확인하고 다시 열어 주세요.</p>'
+            + '<button type="button" style="min-height:56px;padding:0 24px;font:inherit;font-weight:700;border-radius:16px;border:0;background:#2f6fd6;color:#fff">다시 열기</button></div>';
+          r.querySelector('button').onclick = function () { try { sessionStorage.removeItem(KEY); } catch (e) {} reload(); };
+        }
+        function recover() {
+          if (busy || !blank() || !navigator.onLine) return;
+          var n = count();
+          if (n >= MAX) { stuck(); return; }
+          busy = true;
+          sessionStorage.setItem(KEY, String(n + 1));
+          var sw = navigator.serviceWorker, step;
+          if (!sw) step = Promise.resolve();
+          else if (n === 0) {
+            step = sw.getRegistration().then(function (reg) {
+              if (!reg) return;
+              return reg.update().then(function () { var w = reg.waiting; if (w) w.postMessage({ type: 'SKIP_WAITING' }); });
+            });
+          } else {
+            step = sw.getRegistrations()
+              .then(function (regs) { return Promise.all(regs.map(function (reg) { return reg.unregister(); })); })
+              .then(function () { return caches.keys(); })
+              .then(function (keys) { return Promise.all(keys.filter(function (k) { return /^workbox-precache/.test(k); }).map(function (k) { return caches.delete(k); })); });
+          }
+          step.then(reload, reload);
+          setTimeout(reload, 4000);
+        }
+        // a script or style of the build that failed to load (capture: load errors do not bubble), or a lazy chunk
+        addEventListener('error', function (e) {
+          var t = e.target, src = t && (t.src || t.href);
+          if (typeof src === 'string' && src.indexOf('/assets/') >= 0) recover();
+        }, true);
+        addEventListener('vite:preloadError', recover);
+        addEventListener('load', function () {
+          setTimeout(function () { if (!blank()) { try { sessionStorage.removeItem(KEY); } catch (e) {} } }, 5000);
+          // nothing drawn long after loading (an error no event reported)
+          setTimeout(function () { if (blank()) recover(); }, 12000);
+        });
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>뿅뿅 수학모험</title>
-    <script type="module" crossorigin src="/assets/index-xEBS3cu2.js"></script>
+    <script type="module" crossorigin src="/assets/index-DfB6djHb.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/Toast-c9Ls04u9.js">
-    <link rel="modulepreload" crossorigin href="/assets/option-b-BUAVAy3B.js">
-    <link rel="modulepreload" crossorigin href="/assets/draw-DB8i9F0J.js">
+    <link rel="modulepreload" crossorigin href="/assets/option-b-C1in69Ev.js">
+    <link rel="modulepreload" crossorigin href="/assets/draw-DkVMh07M.js">
     <link rel="modulepreload" crossorigin href="/assets/palettes-BtjiVnDa.js">
-    <link rel="modulepreload" crossorigin href="/assets/defs-Bz35NiOQ.js">
+    <link rel="modulepreload" crossorigin href="/assets/defs-Cj8tMOvu.js">
     <link rel="modulepreload" crossorigin href="/assets/preload-helper-7y9sWmk5.js">
-    <link rel="modulepreload" crossorigin href="/assets/render--YuNZHMQ.js">
-    <link rel="modulepreload" crossorigin href="/assets/rewards-CIpWNx_-.js">
+    <link rel="modulepreload" crossorigin href="/assets/render-DPIsUu6K.js">
+    <link rel="modulepreload" crossorigin href="/assets/time-CtzrpIxw.js">
+    <link rel="modulepreload" crossorigin href="/assets/sync-CoZ_mEj6.js">
+    <link rel="modulepreload" crossorigin href="/assets/rewards-FD40BtwH.js">
     <link rel="modulepreload" crossorigin href="/assets/pin-CGa2lIfu.js">
-    <link rel="modulepreload" crossorigin href="/assets/meta-7B9pmOcd.js">
-    <link rel="modulepreload" crossorigin href="/assets/meta-DmUhRuHM.js">
-    <link rel="modulepreload" crossorigin href="/assets/meta-C5WmfZxZ.js">
-    <link rel="modulepreload" crossorigin href="/assets/services-1t6aRu7L.js">
-    <link rel="modulepreload" crossorigin href="/assets/hooks-Em89DeYN.js">
-    <link rel="modulepreload" crossorigin href="/assets/world-Mzl82HGW.js">
-    <link rel="modulepreload" crossorigin href="/assets/update-C1fKJG9B.js">
-    <link rel="modulepreload" crossorigin href="/assets/shell-B3SC1cdI.js">
+    <link rel="modulepreload" crossorigin href="/assets/meta-BDRkgRk2.js">
+    <link rel="modulepreload" crossorigin href="/assets/meta-BkIcyppr.js">
+    <link rel="modulepreload" crossorigin href="/assets/meta-l6D3x2AX.js">
+    <link rel="modulepreload" crossorigin href="/assets/services-Dwb5_Mi7.js">
+    <link rel="modulepreload" crossorigin href="/assets/hooks-BHHMChXu.js">
+    <link rel="modulepreload" crossorigin href="/assets/world-73ajdtGY.js">
+    <link rel="modulepreload" crossorigin href="/assets/sw-CjGYHLA0.js">
+    <link rel="modulepreload" crossorigin href="/assets/update-BNAEJXuS.js">
+    <link rel="modulepreload" crossorigin href="/assets/shell-C8CsXg-G.js">
     <link rel="modulepreload" crossorigin href="/assets/install-DJXD7TgX.js">
-    <link rel="stylesheet" crossorigin href="/assets/shell-DGhL8WXa.css">
-    <link rel="stylesheet" crossorigin href="/assets/index-CjISQzlA.css">
+    <link rel="stylesheet" crossorigin href="/assets/shell-BafKN8sN.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-CUPG01ia.css">
     <meta name="robots" content="noindex,nofollow">
   <link rel="manifest" href="/manifest.webmanifest"></head>
   <body>
