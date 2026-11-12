@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-BIUEfZIL.js";var t=e(),n=/([\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]+)/u;function r(e){let r=e.split(n);return r.length===1?e:r.map((e,n)=>n%2?(0,t.jsx)(`span`,{className:`hanja`,children:e},n):e)}export{r as t};

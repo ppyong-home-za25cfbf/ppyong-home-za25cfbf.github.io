@@ -1,1 +1,0 @@
-import{n as e,t}from"./defs-Cj8tMOvu.js";function n(n,r){let i={},a={},o=t.map((e,t)=>{let[r,o,s,c,l,u,d,f]=n[t],p=e.id;return i[p]=d,a[p]=f,{id:p,theme:r,mark:e.mark,blurb:o,names:s,stageBlurbs:c,ability:{id:e.ability.id,name:l,description:u}}});return{defs:e(o,i),main:i,egg:a,deco:r}}export{n as t};

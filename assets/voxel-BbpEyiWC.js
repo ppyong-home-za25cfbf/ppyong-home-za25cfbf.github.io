@@ -1,0 +1,1 @@
+import{n as e}from"./option-b-C89k-Aju.js";var t=e.color.petInk,n=`#2b2340`,r=e=>e.map(e=>e[6]===n?[...e.slice(0,6),t]:e);function i(e){return{...e,parts:e.parts.map(e=>({...e,boxes:r(e.boxes)})),faces:{happy:r(e.faces.happy),wow:r(e.faces.wow),sad:r(e.faces.sad),cheer:r(e.faces.cheer)}}}export{i as t};
